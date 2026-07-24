@@ -82,6 +82,7 @@
             border-radius: 8px;
             padding: 1.5rem;
             text-align: center;
+            position: relative;
             transition: transform 0.3s ease, border-color 0.3s ease;
         }
 
@@ -95,32 +96,104 @@
             background: linear-gradient(180deg, rgba(255,102,0,0.1) 0%, var(--card-bg) 100%);
         }
 
+        .player-number-badge {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            background: var(--orange);
+            color: #000;
+            font-weight: 700;
+            font-size: 0.85rem;
+            padding: 0.1rem 0.5rem;
+            border-radius: 4px;
+        }
+
         .player-avatar {
-            font-size: 2.5rem;
+            font-size: 2.2rem;
             color: var(--orange);
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
         }
 
         .player-name {
             font-size: 1.2rem;
             font-weight: 600;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.3rem;
         }
 
         .player-role {
             display: inline-block;
             background-color: var(--orange);
             color: #000;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             font-weight: 700;
             padding: 0.2rem 0.8rem;
             border-radius: 20px;
             text-transform: uppercase;
+            margin-bottom: 0.8rem;
         }
 
         .player-role.member {
             background-color: #333;
             color: var(--text-muted);
+        }
+
+        /* Oyuncu İstatistik ve Numara Düzenleme Alanları */
+        .player-stats {
+            background: #151515;
+            padding: 0.8rem;
+            border-radius: 6px;
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.4rem;
+        }
+
+        .stat-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .stat-controls {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .stat-btn {
+            background: var(--orange);
+            color: #000;
+            border: none;
+            width: 22px;
+            height: 22px;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+        }
+        .stat-btn:hover {
+            background: var(--orange-hover);
+            color: #fff;
+        }
+
+        .num-edit-box {
+            margin-top: 0.8rem;
+            display: none;
+        }
+        .num-input {
+            width: 60px;
+            padding: 0.3rem;
+            background: #222;
+            border: 1px solid var(--border-color);
+            color: #fff;
+            text-align: center;
+            border-radius: 4px;
         }
 
         /* Veri / Tablo Alanı */
@@ -169,7 +242,7 @@
             border-radius: 8px;
             padding: 1.5rem;
             margin-top: 2rem;
-            display: none; /* Varsayılan olarak gizli */
+            display: none;
         }
 
         .login-bar {
@@ -285,45 +358,16 @@
 
     <div class="container">
         
-        <!-- Kaptan Giriş Butonu Alanı -->
+        <!-- Kaptan Giriş Butonu Alanı (İsim kaldırıldı) -->
         <div class="login-bar">
-            <button class="btn" id="loginBtn" onclick="openLoginModal()"><i class="fa-solid fa-lock"></i> Kaptan Girişi (Yakup Sunay)</button>
+            <button class="btn" id="loginBtn" onclick="openLoginModal()"><i class="fa-solid fa-lock"></i> Kaptan Girişi</button>
             <button class="btn btn-danger" id="logoutBtn" style="display:none;" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i> Çıkış Yap</button>
         </div>
 
         <!-- Kadro Bölümü -->
         <h2 class="section-title">Takım Kadrosu</h2>
-        <div class="squad-grid">
-            <div class="player-card captain">
-                <div class="player-avatar"><i class="fa-solid fa-crown" style="color: #ffd700;"></i></div>
-                <div class="player-name">Yakup Sunay</div>
-                <span class="player-role">Kaptan</span>
-            </div>
-            <div class="player-card">
-                <div class="player-avatar"><i class="fa-solid fa-user"></i></div>
-                <div class="player-name">Eren Yılmaz</div>
-                <span class="player-role member">Oyuncu</span>
-            </div>
-            <div class="player-card">
-                <div class="player-avatar"><i class="fa-solid fa-user"></i></div>
-                <div class="player-name">Musa Aksu</div>
-                <span class="player-role member">Oyuncu</span>
-            </div>
-            <div class="player-card">
-                <div class="player-avatar"><i class="fa-solid fa-user"></i></div>
-                <div class="player-name">Hüseyin Yüksekdağ</div>
-                <span class="player-role member">Oyuncu</span>
-            </div>
-            <div class="player-card">
-                <div class="player-avatar"><i class="fa-solid fa-user"></i></div>
-                <div class="player-name">Murat Çaylı</div>
-                <span class="player-role member">Oyuncu</span>
-            </div>
-            <div class="player-card">
-                <div class="player-avatar"><i class="fa-solid fa-user"></i></div>
-                <div class="player-name">Süleyman Tunçelik</div>
-                <span class="player-role member">Oyuncu</span>
-            </div>
+        <div class="squad-grid" id="squadContainer">
+            <!-- JavaScript ile Dinamik Yüklenecek -->
         </div>
 
         <!-- Veri Tablosu Bölümü -->
@@ -377,7 +421,7 @@
         <div class="modal-content">
             <span class="close-modal" onclick="closeLoginModal()">&times;</span>
             <h3>Kaptan Girişi</h3>
-            <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1rem;">Yalnızca Yakup Sunay veri girişi yapabilir.</p>
+            <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1rem;">Yalnızca yetkili kaptan veri girişi yapabilir.</p>
             <div class="form-group">
                 <input type="password" id="adminPassword" class="form-control" placeholder="Kaptan Şifresini Girin">
             </div>
@@ -391,15 +435,33 @@
     </footer>
 
     <script>
-        // Varsayılan Şifre (İstediğiniz gibi değiştirebilirsiniz)
+        // Varsayılan Şifre
         const ADMIN_PASSWORD = "yakupgunu"; 
 
-        // Başlangıç Verileri (Eğer hafızada veri yoksa yüklenecek örnek veri)
+        // Başlangıç Oyuncu Kadrosu ve Verileri
+        let defaultPlayers = [
+            { id: 1, name: "Yakup Sunay", role: "Kaptan", number: "10", goals: 0, assists: 0, isCaptain: true },
+            { id: 2, name: "Eren Yılmaz", role: "Oyuncu", number: "7", goals: 0, assists: 0, isCaptain: false },
+            { id: 3, name: "Musa Aksu", role: "Oyuncu", number: "8", goals: 0, assists: 0, isCaptain: false },
+            { id: 4, name: "Hüseyin Yüksekdağ", role: "Oyuncu", number: "5", goals: 0, assists: 0, isCaptain: false },
+            { id: 5, name: "Murat Çaylı", role: "Oyuncu", number: "4", goals: 0, assists: 0, isCaptain: false },
+            { id: 6, name: "Süleyman Tunçelik", role: "Oyuncu", number: "9", goals: 0, assists: 0, isCaptain: false }
+        ];
+
         let defaultData = [
             { id: 1, name: "İlk Antrenman Maçı", date: "2026-07-01", squad: "Tam Kadro", result: "Galibiyet" }
         ];
 
-        // Sayfa açıldığında localStorage'dan verileri çek
+        // LocalStorage Verilerini Yönetme
+        function getStoredPlayers() {
+            let data = localStorage.getItem('fc_badboys_players');
+            return data ? JSON.parse(data) : defaultPlayers;
+        }
+
+        function saveStoredPlayers(players) {
+            localStorage.setItem('fc_badboys_players', JSON.stringify(players));
+        }
+
         function getStoredData() {
             let data = localStorage.getItem('fc_badboys_data');
             return data ? JSON.parse(data) : defaultData;
@@ -407,6 +469,78 @@
 
         function saveStoredData(data) {
             localStorage.setItem('fc_badboys_data', JSON.stringify(data));
+        }
+
+        // Kadroyu Ekrana Çizdir
+        function renderSquad() {
+            let players = getStoredPlayers();
+            let container = document.getElementById('squadContainer');
+            let isAdmin = localStorage.getItem('fc_badboys_logged') === 'true';
+
+            container.innerHTML = '';
+
+            players.forEach(player => {
+                let card = document.createElement('div');
+                card.className = `player-card ${player.isCaptain ? 'captain' : ''}`;
+                
+                card.innerHTML = `
+                    <div class="player-number-badge">#${player.number}</div>
+                    <div class="player-avatar">
+                        <i class="fa-solid ${player.isCaptain ? 'fa-crown' : 'fa-user'}" style="${player.isCaptain ? 'color: #ffd700;' : ''}"></i>
+                    </div>
+                    <div class="player-name">${player.name}</div>
+                    <span class="player-role ${player.isCaptain ? '' : 'member'}">${player.role}</span>
+                    
+                    <div class="player-stats">
+                        <div class="stat-row">
+                            <span>Gol: <strong>${player.goals}</strong></span>
+                            ${isAdmin ? `
+                            <div class="stat-controls">
+                                <button class="stat-btn" onclick="updateStat(${player.id}, 'goals', -1)">-</button>
+                                <button class="stat-btn" onclick="updateStat(${player.id}, 'goals', 1)">+</button>
+                            </div>` : ''}
+                        </div>
+                        <div class="stat-row">
+                            <span>Asist: <strong>${player.assists}</strong></span>
+                            ${isAdmin ? `
+                            <div class="stat-controls">
+                                <button class="stat-btn" onclick="updateStat(${player.id}, 'assists', -1)">-</button>
+                                <button class="stat-btn" onclick="updateStat(${player.id}, 'assists', 1)">+</button>
+                            </div>` : ''}
+                        </div>
+                    </div>
+
+                    ${isAdmin ? `
+                    <div class="num-edit-box" style="display: block; margin-top: 0.8rem;">
+                        <label style="font-size:0.75rem; color:var(--text-muted);">Forma No Değiştir:</label><br>
+                        <input type="number" class="num-input" value="${player.number}" onchange="updateNumber(${player.id}, this.value)">
+                    </div>` : ''}
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // İstatistik Güncelleme (+ / -)
+        function updateStat(playerId, statType, change) {
+            let players = getStoredPlayers();
+            let player = players.find(p => p.id === playerId);
+            if(player) {
+                player[statType] += change;
+                if(player[statType] < 0) player[statType] = 0; // Eksiye düşmesin
+                saveStoredPlayers(players);
+                renderSquad();
+            }
+        }
+
+        // Forma Numarası Güncelleme
+        function updateNumber(playerId, newNum) {
+            let players = getStoredPlayers();
+            let player = players.find(p => p.id === playerId);
+            if(player && newNum.trim() !== "") {
+                player.number = newNum;
+                saveStoredPlayers(players);
+                renderSquad();
+            }
         }
 
         // Tabloyu doldur
@@ -417,7 +551,6 @@
             
             tbody.innerHTML = '';
             
-            // Admin kolon başlıklarını ayarla
             let adminCols = document.querySelectorAll('.admin-col');
             adminCols.forEach(col => {
                 col.style.display = isAdmin ? 'table-cell' : 'none';
@@ -454,58 +587,6 @@
                 localStorage.setItem('fc_badboys_logged', 'true');
                 closeLoginModal();
                 updateAuthUI();
+                renderSquad();
                 renderTable();
-            } else {
-                document.getElementById('loginError').style.display = 'block';
-            }
-        }
-
-        function logout() {
-            localStorage.removeItem('fc_badboys_logged');
-            updateAuthUI();
-            renderTable();
-        }
-
-        function updateAuthUI() {
-            let isAdmin = localStorage.getItem('fc_badboys_logged') === 'true';
-            document.getElementById('adminPanel').style.display = isAdmin ? 'block' : 'none';
-            document.getElementById('loginBtn').style.display = isAdmin ? 'none' : 'inline-block';
-            document.getElementById('logoutBtn').style.display = isAdmin ? 'inline-block' : 'none';
-        }
-
-        // Veri Ekleme
-        function addData(e) {
-            e.preventDefault();
-            let name = document.getElementById('matchName').value;
-            let date = document.getElementById('matchDate').value;
-            let squad = document.getElementById('matchSquad').value;
-            let result = document.getElementById('matchResult').value;
-
-            let data = getStoredData();
-            let newId = data.length > 0 ? data[data.length - 1].id + 1 : 1;
-
-            data.push({ id: newId, name, date, squad, result });
-            saveStoredData(data);
-
-            document.getElementById('dataForm').reset();
-            renderTable();
-        }
-
-        // Veri Silme (Sadece Kaptan)
-        function deleteData(id) {
-            if(confirm("Bu veriyi silmek istediğinize emin misiniz?")) {
-                let data = getStoredData();
-                data = data.filter(item => item.id !== id);
-                saveStoredData(data);
-                renderTable();
-            }
-        }
-
-        // Sayfa Yüklendiğinde Çalıştır
-        window.onload = function() {
-            updateAuthUI();
-            renderTable();
-        }
-    </script>
-</body>
-</html>
+   
