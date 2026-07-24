@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FC Bad Boys - Takım Paneli</title>
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
@@ -19,334 +17,52 @@
             --text-muted: #b0b0b0;
             --border-color: #333333;
         }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-main); line-height: 1.6; }
+        header { background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%); border-bottom: 3px solid var(--orange); padding: 2rem 1rem; text-align: center; }
+        header h1 { font-size: 2.5rem; color: var(--orange); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 0.5rem; }
+        header p { color: var(--text-muted); font-size: 1.1rem; }
+        .container { max-width: 1200px; margin: 2rem auto; padding: 0 1rem; }
+        .section-title { font-size: 1.5rem; margin-bottom: 1.5rem; border-left: 4px solid var(--orange); padding-left: 10px; text-transform: uppercase; letter-spacing: 1px; }
+        
+        .squad-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 3rem; }
+        .player-card { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 1.5rem; text-align: center; position: relative; }
+        .player-card.captain { border-color: var(--orange); background: linear-gradient(180deg, rgba(255,102,0,0.1) 0%, var(--card-bg) 100%); }
+        .player-number-badge { position: absolute; top: 10px; right: 15px; background: var(--orange); color: #000; font-weight: 700; font-size: 0.85rem; padding: 0.1rem 0.5rem; border-radius: 4px; }
+        .player-avatar { font-size: 2.2rem; color: var(--orange); margin-bottom: 0.5rem; }
+        .player-name { font-size: 1.2rem; font-weight: 600; margin-bottom: 0.3rem; }
+        .player-role { display: inline-block; background-color: var(--orange); color: #000; font-size: 0.75rem; font-weight: 700; padding: 0.2rem 0.8rem; border-radius: 20px; text-transform: uppercase; margin-bottom: 0.8rem; }
+        .player-role.member { background-color: #333; color: var(--text-muted); }
+        
+        .player-stats { background: #151515; padding: 0.8rem; border-radius: 6px; margin-top: 0.5rem; font-size: 0.9rem; }
+        .stat-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem; }
+        .stat-controls { display: flex; align-items: center; gap: 5px; }
+        .stat-btn { background: var(--orange); color: #000; border: none; width: 24px; height: 24px; font-weight: bold; border-radius: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        .stat-btn:hover { background: var(--orange-hover); color: #fff; }
+        
+        .num-edit-box { margin-top: 0.8rem; display: none; }
+        .num-input { width: 60px; padding: 0.3rem; background: #222; border: 1px solid var(--border-color); color: #fff; text-align: center; border-radius: 4px; }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
+        .data-section { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 1.5rem; margin-bottom: 2rem; overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; text-align: left; }
+        th, td { padding: 1rem; border-bottom: 1px solid var(--border-color); }
+        th { background-color: #151515; color: var(--orange); font-weight: 600; text-transform: uppercase; font-size: 0.9rem; }
+        td { font-size: 0.95rem; color: var(--text-muted); }
 
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            line-height: 1.6;
-        }
-
-        header {
-            background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
-            border-bottom: 3px solid var(--orange);
-            padding: 2rem 1rem;
-            text-align: center;
-        }
-
-        header h1 {
-            font-size: 2.5rem;
-            color: var(--orange);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 0.5rem;
-        }
-
-        header p {
-            color: var(--text-muted);
-            font-size: 1.1rem;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0 1rem;
-        }
-
-        .section-title {
-            font-size: 1.5rem;
-            margin-bottom: 1.5rem;
-            border-left: 4px solid var(--orange);
-            padding-left: 10px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        /* Kadro Grid */
-        .squad-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 3rem;
-        }
-
-        .player-card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 1.5rem;
-            text-align: center;
-            position: relative;
-            transition: transform 0.3s ease, border-color 0.3s ease;
-        }
-
-        .player-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--orange);
-        }
-
-        .player-card.captain {
-            border-color: var(--orange);
-            background: linear-gradient(180deg, rgba(255,102,0,0.1) 0%, var(--card-bg) 100%);
-        }
-
-        .player-number-badge {
-            position: absolute;
-            top: 10px;
-            right: 15px;
-            background: var(--orange);
-            color: #000;
-            font-weight: 700;
-            font-size: 0.85rem;
-            padding: 0.1rem 0.5rem;
-            border-radius: 4px;
-        }
-
-        .player-avatar {
-            font-size: 2.2rem;
-            color: var(--orange);
-            margin-bottom: 0.5rem;
-        }
-
-        .player-name {
-            font-size: 1.2rem;
-            font-weight: 600;
-            margin-bottom: 0.3rem;
-        }
-
-        .player-role {
-            display: inline-block;
-            background-color: var(--orange);
-            color: #000;
-            font-size: 0.75rem;
-            font-weight: 700;
-            padding: 0.2rem 0.8rem;
-            border-radius: 20px;
-            text-transform: uppercase;
-            margin-bottom: 0.8rem;
-        }
-
-        .player-role.member {
-            background-color: #333;
-            color: var(--text-muted);
-        }
-
-        /* Oyuncu İstatistik ve Numara Düzenleme Alanları */
-        .player-stats {
-            background: #151515;
-            padding: 0.8rem;
-            border-radius: 6px;
-            margin-top: 0.5rem;
-            font-size: 0.9rem;
-        }
-
-        .stat-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 0.4rem;
-        }
-
-        .stat-row:last-child {
-            margin-bottom: 0;
-        }
-
-        .stat-controls {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .stat-btn {
-            background: var(--orange);
-            color: #000;
-            border: none;
-            width: 22px;
-            height: 22px;
-            font-weight: bold;
-            border-radius: 4px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.8rem;
-        }
-        .stat-btn:hover {
-            background: var(--orange-hover);
-            color: #fff;
-        }
-
-        .num-edit-box {
-            margin-top: 0.8rem;
-            display: none;
-        }
-        .num-input {
-            width: 60px;
-            padding: 0.3rem;
-            background: #222;
-            border: 1px solid var(--border-color);
-            color: #fff;
-            text-align: center;
-            border-radius: 4px;
-        }
-
-        /* Veri / Tablo Alanı */
-        .data-section {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-            overflow-x: auto;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            text-align: left;
-        }
-
-        th, td {
-            padding: 1rem;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        th {
-            background-color: #151515;
-            color: var(--orange);
-            font-weight: 600;
-            text-transform: uppercase;
-            font-size: 0.9rem;
-        }
-
-        td {
-            font-size: 0.95rem;
-            color: var(--text-muted);
-        }
-
-        tr:hover td {
-            color: var(--text-main);
-            background-color: rgba(255, 255, 255, 0.02);
-        }
-
-        /* Kaptan Giriş ve Veri Ekleme Paneli */
-        .admin-panel {
-            background-color: var(--card-bg);
-            border: 1px solid var(--orange);
-            border-radius: 8px;
-            padding: 1.5rem;
-            margin-top: 2rem;
-            display: none;
-        }
-
-        .login-bar {
-            text-align: right;
-            margin-bottom: 1rem;
-        }
-
-        .btn {
-            background-color: var(--orange);
-            color: #000;
-            font-weight: 600;
-            border: none;
-            padding: 0.6rem 1.2rem;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-
-        .btn:hover {
-            background-color: var(--orange-hover);
-            color: #fff;
-        }
-
-        .btn-danger {
-            background-color: #d9534f;
-            color: #fff;
-        }
-        .btn-danger:hover {
-            background-color: #c9302c;
-        }
-
-        .form-group {
-            margin-bottom: 1rem;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: var(--text-main);
-            font-size: 0.9rem;
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 0.8rem;
-            background-color: #151515;
-            border: 1px solid var(--border-color);
-            border-radius: 4px;
-            color: var(--text-main);
-            font-size: 0.95rem;
-        }
-
-        .form-control:focus {
-            border-color: var(--orange);
-            outline: none;
-        }
-
-        /* Modal (Giriş Penceresi) */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.8);
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal-content {
-            background-color: var(--card-bg);
-            border: 1px solid var(--orange);
-            padding: 2rem;
-            border-radius: 8px;
-            width: 100%;
-            max-width: 400px;
-            text-align: center;
-        }
-
-        .modal-content h3 {
-            color: var(--orange);
-            margin-bottom: 1rem;
-        }
-
-        .close-modal {
-            float: right;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: var(--text-muted);
-        }
-        .close-modal:hover {
-            color: var(--text-main);
-        }
-
-        footer {
-            text-align: center;
-            padding: 2rem;
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            border-top: 1px solid var(--border-color);
-            margin-top: 3rem;
-        }
+        .admin-panel { background-color: var(--card-bg); border: 1px solid var(--orange); border-radius: 8px; padding: 1.5rem; margin-top: 2rem; display: none; }
+        .login-bar { text-align: right; margin-bottom: 1rem; }
+        .btn { background-color: var(--orange); color: #000; font-weight: 600; border: none; padding: 0.6rem 1.2rem; border-radius: 4px; cursor: pointer; }
+        .btn:hover { background-color: var(--orange-hover); color: #fff; }
+        .btn-danger { background-color: #d9534f; color: #fff; }
+        
+        .form-group { margin-bottom: 1rem; }
+        .form-group label { display: block; margin-bottom: 0.5rem; color: var(--text-main); font-size: 0.9rem; }
+        .form-control { width: 100%; padding: 0.8rem; background-color: #151515; border: 1px solid var(--border-color); border-radius: 4px; color: var(--text-main); }
+        
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.8); justify-content: center; align-items: center; }
+        .modal-content { background-color: var(--card-bg); border: 1px solid var(--orange); padding: 2rem; border-radius: 8px; width: 100%; max-width: 400px; text-align: center; }
+        .close-modal { float: right; font-size: 1.5rem; cursor: pointer; color: var(--text-muted); }
+        footer { text-align: center; padding: 2rem; color: var(--text-muted); border-top: 1px solid var(--border-color); margin-top: 3rem; }
     </style>
 </head>
 <body>
@@ -357,89 +73,59 @@
     </header>
 
     <div class="container">
-        
-        <!-- Kaptan Giriş Butonu Alanı (İsim kaldırıldı) -->
         <div class="login-bar">
             <button class="btn" id="loginBtn" onclick="openLoginModal()"><i class="fa-solid fa-lock"></i> Kaptan Girişi</button>
             <button class="btn btn-danger" id="logoutBtn" style="display:none;" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i> Çıkış Yap</button>
         </div>
 
-        <!-- Kadro Bölümü -->
         <h2 class="section-title">Takım Kadrosu</h2>
-        <div class="squad-grid" id="squadContainer">
-            <!-- JavaScript ile Dinamik Yüklenecek -->
-        </div>
+        <div class="squad-grid" id="squadContainer"></div>
 
-        <!-- Veri Tablosu Bölümü -->
         <h2 class="section-title">Takım Verileri & İstatistikler</h2>
         <div class="data-section">
-            <table id="dataTable">
+            <table>
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Maç / Etkinlik Adı</th>
+                        <th>Maç Adı</th>
                         <th>Tarih</th>
-                        <th>Katılımcılar / Kadro</th>
-                        <th>Sonuç / Veri</th>
+                        <th>Kadro</th>
+                        <th>Sonuç</th>
                         <th class="admin-col" style="display:none;">İşlem</th>
                     </tr>
                 </thead>
-                <tbody id="tableBody">
-                    <!-- Dinamik Veriler Buraya Gelecek -->
-                </tbody>
+                <tbody id="tableBody"></tbody>
             </table>
         </div>
 
-        <!-- Sadece Kaptanın Görebileceği Veri Ekleme Paneli -->
         <div class="admin-panel" id="adminPanel">
-            <h3 style="color: var(--orange); margin-bottom: 1rem;"><i class="fa-solid fa-plus-circle"></i> Yeni Veri Ekle (Kaptan Paneli)</h3>
+            <h3 style="color: var(--orange); margin-bottom: 1rem;"><i class="fa-solid fa-plus-circle"></i> Yeni Veri Ekle</h3>
             <form id="dataForm" onsubmit="addData(event)">
-                <div class="form-group">
-                    <label>Maç / Etkinlik Adı</label>
-                    <input type="text" id="matchName" class="form-control" required placeholder="Örn: Turnuva Maçı #1">
-                </div>
-                <div class="form-group">
-                    <label>Tarih</label>
-                    <input type="date" id="matchDate" class="form-control" required>
-                </div>
-                <div class="form-group">
-                    <label>Katılımcılar / Kadro Durumu</label>
-                    <input type="text" id="matchSquad" class="form-control" required placeholder="Örn: Tam Kadro + Dışarıdan Oyuncu">
-                </div>
-                <div class="form-group">
-                    <label>Sonuç / Veri Detayı</label>
-                    <input type="text" id="matchResult" class="form-control" required placeholder="Örn: Galibiyet (10-4)">
-                </div>
-                <button type="submit" class="btn"><i class="fa-solid fa-check"></i> Veriyi Kaydet</button>
+                <div class="form-group"><label>Maç / Etkinlik Adı</label><input type="text" id="matchName" class="form-control" required></div>
+                <div class="form-group"><label>Tarih</label><input type="date" id="matchDate" class="form-control" required></div>
+                <div class="form-group"><label>Kadro Durumu</label><input type="text" id="matchSquad" class="form-control" required></div>
+                <div class="form-group"><label>Sonuç</label><input type="text" id="matchResult" class="form-control" required></div>
+                <button type="submit" class="btn">Kaydet</button>
             </form>
         </div>
-
     </div>
 
-    <!-- Giriş Modalı -->
     <div class="modal" id="loginModal">
         <div class="modal-content">
             <span class="close-modal" onclick="closeLoginModal()">&times;</span>
             <h3>Kaptan Girişi</h3>
-            <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1rem;">Yalnızca yetkili kaptan veri girişi yapabilir.</p>
-            <div class="form-group">
-                <input type="password" id="adminPassword" class="form-control" placeholder="Kaptan Şifresini Girin">
-            </div>
+            <div class="form-group" style="margin-top:1rem;"><input type="password" id="adminPassword" class="form-control" placeholder="Şifre"></div>
             <button class="btn" onclick="checkLogin()" style="width: 100%;">Giriş Yap</button>
             <p id="loginError" style="color: #d9534f; font-size: 0.85rem; margin-top: 0.5rem; display: none;">Hatalı Şifre!</p>
         </div>
     </div>
 
-    <footer>
-        <p>&copy; 2026 FC Bad Boys. Tüm hakları saklıdır.</p>
-    </footer>
+    <footer><p>&copy; 2026 FC Bad Boys</p></footer>
 
     <script>
-        // Varsayılan Şifre
         const ADMIN_PASSWORD = "yakupgunu"; 
 
-        // Başlangıç Oyuncu Kadrosu ve Verileri
-        let defaultPlayers = [
+        let players = JSON.parse(localStorage.getItem('fc_players')) || [
             { id: 1, name: "Yakup Sunay", role: "Kaptan", number: "10", goals: 0, assists: 0, isCaptain: true },
             { id: 2, name: "Eren Yılmaz", role: "Oyuncu", number: "7", goals: 0, assists: 0, isCaptain: false },
             { id: 3, name: "Musa Aksu", role: "Oyuncu", number: "8", goals: 0, assists: 0, isCaptain: false },
@@ -448,145 +134,94 @@
             { id: 6, name: "Süleyman Tunçelik", role: "Oyuncu", number: "9", goals: 0, assists: 0, isCaptain: false }
         ];
 
-        let defaultData = [
-            { id: 1, name: "İlk Antrenman Maçı", date: "2026-07-01", squad: "Tam Kadro", result: "Galibiyet" }
+        let matchData = JSON.parse(localStorage.getItem('fc_matches')) || [
+            { id: 1, name: "İlk Maç", date: "2026-07-01", squad: "Tam Kadro", result: "Galibiyet" }
         ];
 
-        // LocalStorage Verilerini Yönetme
-        function getStoredPlayers() {
-            let data = localStorage.getItem('fc_badboys_players');
-            return data ? JSON.parse(data) : defaultPlayers;
-        }
-
-        function saveStoredPlayers(players) {
-            localStorage.setItem('fc_badboys_players', JSON.stringify(players));
-        }
-
-        function getStoredData() {
-            let data = localStorage.getItem('fc_badboys_data');
-            return data ? JSON.parse(data) : defaultData;
-        }
-
-        function saveStoredData(data) {
-            localStorage.setItem('fc_badboys_data', JSON.stringify(data));
-        }
-
-        // Kadroyu Ekrana Çizdir
-        function renderSquad() {
-            let players = getStoredPlayers();
-            let container = document.getElementById('squadContainer');
-            let isAdmin = localStorage.getItem('fc_badboys_logged') === 'true';
-
-            container.innerHTML = '';
-
-            players.forEach(player => {
-                let card = document.createElement('div');
-                card.className = `player-card ${player.isCaptain ? 'captain' : ''}`;
-                
-                card.innerHTML = `
-                    <div class="player-number-badge">#${player.number}</div>
-                    <div class="player-avatar">
-                        <i class="fa-solid ${player.isCaptain ? 'fa-crown' : 'fa-user'}" style="${player.isCaptain ? 'color: #ffd700;' : ''}"></i>
-                    </div>
-                    <div class="player-name">${player.name}</div>
-                    <span class="player-role ${player.isCaptain ? '' : 'member'}">${player.role}</span>
-                    
-                    <div class="player-stats">
-                        <div class="stat-row">
-                            <span>Gol: <strong>${player.goals}</strong></span>
-                            ${isAdmin ? `
-                            <div class="stat-controls">
-                                <button class="stat-btn" onclick="updateStat(${player.id}, 'goals', -1)">-</button>
-                                <button class="stat-btn" onclick="updateStat(${player.id}, 'goals', 1)">+</button>
-                            </div>` : ''}
+        function renderAll() {
+            let isAdmin = localStorage.getItem('fc_logged') === 'true';
+            
+            // Kadro Çiz
+            let squadContainer = document.getElementById('squadContainer');
+            squadContainer.innerHTML = '';
+            players.forEach(p => {
+                squadContainer.innerHTML += `
+                    <div class="player-card ${p.isCaptain ? 'captain' : ''}">
+                        <div class="player-number-badge">#${p.number}</div>
+                        <div class="player-avatar"><i class="fa-solid ${p.isCaptain ? 'fa-crown' : 'fa-user'}" style="${p.isCaptain ? 'color: #ffd700;' : ''}"></i></div>
+                        <div class="player-name">${p.name}</div>
+                        <span class="player-role ${p.isCaptain ? '' : 'member'}">${p.role}</span>
+                        <div class="player-stats">
+                            <div class="stat-row">
+                                <span>Gol: <strong>${p.goals}</strong></span>
+                                ${isAdmin ? `<div class="stat-controls"><button class="stat-btn" onclick="changeStat(${p.id}, 'goals', -1)">-</button><button class="stat-btn" onclick="changeStat(${p.id}, 'goals', 1)">+</button></div>` : ''}
+                            </div>
+                            <div class="stat-row">
+                                <span>Asist: <strong>${p.assists}</strong></span>
+                                ${isAdmin ? `<div class="stat-controls"><button class="stat-btn" onclick="changeStat(${p.id}, 'assists', -1)">-</button><button class="stat-btn" onclick="changeStat(${p.id}, 'assists', 1)">+</button></div>` : ''}
+                            </div>
                         </div>
-                        <div class="stat-row">
-                            <span>Asist: <strong>${player.assists}</strong></span>
-                            ${isAdmin ? `
-                            <div class="stat-controls">
-                                <button class="stat-btn" onclick="updateStat(${player.id}, 'assists', -1)">-</button>
-                                <button class="stat-btn" onclick="updateStat(${player.id}, 'assists', 1)">+</button>
-                            </div>` : ''}
-                        </div>
-                    </div>
-
-                    ${isAdmin ? `
-                    <div class="num-edit-box" style="display: block; margin-top: 0.8rem;">
-                        <label style="font-size:0.75rem; color:var(--text-muted);">Forma No Değiştir:</label><br>
-                        <input type="number" class="num-input" value="${player.number}" onchange="updateNumber(${player.id}, this.value)">
-                    </div>` : ''}
-                `;
-                container.appendChild(card);
+                        ${isAdmin ? `<div class="num-edit-box" style="display:block; margin-top:8px;"><input type="number" class="num-input" value="${p.number}" onchange="changeNum(${p.id}, this.value)"></div>` : ''}
+                    </div>`;
             });
-        }
 
-        // İstatistik Güncelleme (+ / -)
-        function updateStat(playerId, statType, change) {
-            let players = getStoredPlayers();
-            let player = players.find(p => p.id === playerId);
-            if(player) {
-                player[statType] += change;
-                if(player[statType] < 0) player[statType] = 0; // Eksiye düşmesin
-                saveStoredPlayers(players);
-                renderSquad();
-            }
-        }
-
-        // Forma Numarası Güncelleme
-        function updateNumber(playerId, newNum) {
-            let players = getStoredPlayers();
-            let player = players.find(p => p.id === playerId);
-            if(player && newNum.trim() !== "") {
-                player.number = newNum;
-                saveStoredPlayers(players);
-                renderSquad();
-            }
-        }
-
-        // Tabloyu doldur
-        function renderTable() {
-            let data = getStoredData();
+            // Tablo Çiz
             let tbody = document.getElementById('tableBody');
-            let isAdmin = localStorage.getItem('fc_badboys_logged') === 'true';
-            
             tbody.innerHTML = '';
-            
-            let adminCols = document.querySelectorAll('.admin-col');
-            adminCols.forEach(col => {
-                col.style.display = isAdmin ? 'table-cell' : 'none';
+            matchData.forEach((m, idx) => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${idx + 1}</td><td>${m.name}</td><td>${m.date}</td><td>${m.squad}</td><td><strong style="color:var(--orange);">${m.result}</strong></td>
+                        ${isAdmin ? `<td><button class="btn btn-danger" style="padding:2px 6px; font-size:0.8rem;" onclick="delMatch(${m.id})">Sil</button></td>` : ''}
+                    </tr>`;
             });
 
-            data.forEach((item, index) => {
-                let row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${index + 1}</td>
-                    <td>${item.name}</td>
-                    <td>${item.date}</td>
-                    <td>${item.squad}</td>
-                    <td><strong style="color: var(--orange);">${item.result}</strong></td>
-                    ${isAdmin ? `<td><button class="btn btn-danger" style="padding: 0.2rem 0.5rem; font-size: 0.8rem;" onclick="deleteData(${item.id})"><i class="fa-solid fa-trash"></i> Sil</button></td>` : ''}
-                `;
-                tbody.appendChild(row);
-            });
+            document.querySelectorAll('.admin-col').forEach(el => el.style.display = isAdmin ? 'table-cell' : 'none');
+            document.getElementById('adminPanel').style.display = isAdmin ? 'block' : 'none';
+            document.getElementById('loginBtn').style.display = isAdmin ? 'none' : 'inline-block';
+            document.getElementById('logoutBtn').style.display = isAdmin ? 'inline-block' : 'none';
         }
 
-        // Giriş Modalı Kontrolleri
-        function openLoginModal() {
-            document.getElementById('loginModal').style.display = 'flex';
+        function changeStat(id, type, val) {
+            let p = players.find(x => x.id === id);
+            if(p) { p[type] += val; if(p[type] < 0) p[type] = 0; localStorage.setItem('fc_players', JSON.stringify(players)); renderAll(); }
         }
 
-        function closeLoginModal() {
-            document.getElementById('loginModal').style.display = 'none';
-            document.getElementById('adminPassword').value = '';
-            document.getElementById('loginError').style.display = 'none';
+        function changeNum(id, num) {
+            let p = players.find(x => x.id === id);
+            if(p && num) { p.number = num; localStorage.setItem('fc_players', JSON.stringify(players)); renderAll(); }
         }
+
+        function openLoginModal() { document.getElementById('loginModal').style.display = 'flex'; }
+        function closeLoginModal() { document.getElementById('loginModal').style.display = 'none'; document.getElementById('adminPassword').value = ''; document.getElementById('loginError').style.display = 'none'; }
 
         function checkLogin() {
-            let pass = document.getElementById('adminPassword').value;
-            if(pass === ADMIN_PASSWORD) {
-                localStorage.setItem('fc_badboys_logged', 'true');
+            if(document.getElementById('adminPassword').value === ADMIN_PASSWORD) {
+                localStorage.setItem('fc_logged', 'true');
                 closeLoginModal();
-                updateAuthUI();
-                renderSquad();
-                renderTable();
-   
+                renderAll();
+            } else {
+                document.getElementById('loginError').style.display = 'block';
+            }
+        }
+
+        function logout() { localStorage.removeItem('fc_logged'); renderAll(); }
+
+        function addData(e) {
+            e.preventDefault();
+            matchData.push({ id: Date.now(), name: document.getElementById('matchName').value, date: document.getElementById('matchDate').value, squad: document.getElementById('matchSquad').value, result: document.getElementById('matchResult').value });
+            localStorage.setItem('fc_matches', JSON.stringify(matchData));
+            document.getElementById('dataForm').reset();
+            renderAll();
+        }
+
+        function delMatch(id) {
+            matchData = matchData.filter(x => x.id !== id);
+            localStorage.setItem('fc_matches', JSON.stringify(matchData));
+            renderAll();
+        }
+
+        window.onload = renderAll;
+    </script>
+</body>
+</html>
